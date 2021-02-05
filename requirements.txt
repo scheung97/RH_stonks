@@ -1,4 +1,4 @@
 requests
 robin_stocks
-matplotlib
+plotly
 numpy
