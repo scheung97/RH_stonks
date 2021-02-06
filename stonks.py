@@ -1,18 +1,18 @@
 #3rd part RH api: http://www.robin-stocks.com/en/latest/functions.html
 
-#!/usr/bin/bash python3.8
+#!/usr/bin/bash python3
 
 #import requests
 import json, pyotp
 import robin_stocks
 import config 
 import numpy as np
-import plotly.graph_objects as go #works, unlike matplotlib lol
+import plotly.graph_objects as go 
 
 def main():
     #2FA step:
     totp = pyotp.TOTP("My2factorAppHere").now()
-    robin_stocks.authentication.login(username=config.username, password=config.password, store_session=True, mfa_code=totp)
+    l = robin_stocks.authentication.login(username=config.username, password=config.password, store_session=True, mfa_code=totp) #l = log-in info
     
     r = robin_stocks.build_holdings() #builds dictionary regard stocks+positions the owner has 
     
