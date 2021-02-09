@@ -19,6 +19,7 @@ def main():
     #initializing variable
     new_access = True
     print_holdings = False #Output holdings to console. Increases pie chart load time. 
+    display_pie_chart = False #printing pie chart. disabling decreases run-time
     
     #visual header for holdings data 
     if(print_holdings == True):
@@ -52,7 +53,9 @@ def main():
     fig = go.Figure(data = [go.Pie(labels = ticker, values = total, textinfo ='label', hoverinfo='label+percent')],
                     layout = layout)
     fig.update_layout(autosize=True)
-    fig.show()
+
+    if(display_pie_chart == True):
+        fig.show()
  
     robin_stocks.authentication.logout()
 
