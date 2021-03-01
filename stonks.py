@@ -19,7 +19,7 @@ def main():
     #initializing variable
     new_access = True
     print_holdings = False #Output holdings to console. Increases pie chart load time. 
-    display_pie_chart = False #printing pie chart. disabling decreases run-time
+    display_pie_chart = True #printing pie chart. disabling decreases run-time
     
     #visual header for holdings data 
     if(print_holdings == True):
