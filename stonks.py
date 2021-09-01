@@ -5,23 +5,22 @@
 #import requests
 import json, pyotp
 import robin_stocks
-import config 
+import config
 import numpy as np
-import plotly.graph_objects as go 
+import plotly.graph_objects as go
 
 def main():
     #2FA step:
     totp = pyotp.TOTP("My2factorAppHere").now()
     l = robin_stocks.authentication.login(username=config.username, password=config.password, store_session=True, mfa_code=totp) #l = log-in info
-    
-    r = robin_stocks.build_holdings() #builds dictionary regard stocks+positions the owner has 
-    
+
+    r = robin_stocks.build_holdings() #builds dictionary regard stocks+positions the owner has
+
     #initializing variable
     new_access = True
-    print_holdings = False #Output holdings to console. Increases pie chart load time. 
-    display_pie_chart = True #printing pie chart. disabling decreases run-time
-    
-    #visual header for holdings data 
+    print_holdings = False #Output holdings to console. Increases pie chart load time.
+
+    #visual header for holdings data
     if(print_holdings == True):
         dash='='*73
         print(dash)
@@ -37,28 +36,25 @@ def main():
 
         if(print_holdings == True):
             print("{:<5s}\t  {:>6.2f}\t\t{:>3.4f}".format(key, float(val['price']), float(val['quantity'])))
-        
+
         #calculate stock price value and add it to total portfolio value
         tot = float(val['price'])*float(val['quantity'])
         portfolio_sum = portfolio_sum + tot
-        
+
         ticker = np.append(ticker, str(key))
         total = np.append(total, tot)
 
     #create pie chart with stock data + tickers as labels
-    layout = go.Layout(title='<span style="font-size:30px">Current Robinhood Portfolio:</span>' 
+    layout = go.Layout(title='<span style="font-size:30px">Current Robinhood Portfolio:</span>'
                                +'<br>'
-                               + 'Value: ~$' 
+                               + 'Value: ~$'
                                + '{:.2f}'.format(portfolio_sum))
     fig = go.Figure(data = [go.Pie(labels = ticker, values = total, textinfo ='label', hoverinfo='label+percent')],
                     layout = layout)
     fig.update_layout(autosize=True)
+    # fig.show()
 
-    if(display_pie_chart == True):
-        fig.show()
- 
     robin_stocks.authentication.logout()
 
 if __name__ == "__main__":
     main()
- 
